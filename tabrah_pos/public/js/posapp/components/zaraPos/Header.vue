@@ -5,7 +5,7 @@
         style="max-height: 88px; height: 88px; border-radius: 10px;">
         <!-- Left: Logo -->
         <v-img :src="`/assets/tabrah_pos/js/posapp/components/pos/newaone.png`" max-height="270" contain class="mr-6"
-          style="position: relative; right: 110px; 
+          style="position: relative; right: 80px; 
 
 " />
 

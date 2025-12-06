@@ -717,7 +717,7 @@ const submitCustomerDialog = async () => {
       frappe.utils.play_sound('submit');
       closeCustomerDialog();
       // Refresh customer list and auto-select new customer
-      getCustomerNames(pos_profile.value);
+      //getCustomerNames(pos_profile.value);
       // Wait a moment for the list to refresh, then select
       setTimeout(() => {
         selectedCustomer.value = response.message.name;
@@ -1872,7 +1872,7 @@ onMounted(() => {
     pos_profile.value = profile;
     selectedCustomer.value = profile.customer;
     paymentModes.value = profile.payments;
-    getCustomerNames(profile);
+    // getCustomerNames(profile);
     const hasDefaultPayment = paymentModes.value.some(
       (mode) => mode.default === 1 || mode.selected
     );
