@@ -11,6 +11,7 @@
           font-weight: 600;
           text-transform: uppercase;
           color: #21a0a0;
+          cursor: pointer;
         " @click="go_desk">
         A-One Electronics
       </p>

@@ -5,19 +5,34 @@
       <v-row>
         <v-col cols="12">
           <p class="pt-6 pl-6 title-h">Categories</p>
-          <v-row class="px-4 ml-1 category-row" style="
-            overflow-x: auto;
-            white-space: nowrap;
-            scrollbar-width: thin;
-            -webkit-overflow-scrolling: touch;
-          ">
-            <v-col v-for="category in categories" :key="category" cols="auto" class="px-0 py-1"
-              style="display: inline-block">
-              <v-btn variant="outlined" size="large" class="ma-2 text-capitalize" :class="{
-                'active-catgory': selectedCategory === category,
-                'unactive-catgory': selectedCategory !== category,
-              }" :color="selectedCategory === category ? '#21a0a0' : '#D3ECEC'" @click="changeCategory(category)"
-                style="white-space: normal">
+          <v-row
+            class="px-4 ml-1 category-row"
+            style="
+              overflow-x: auto;
+              white-space: nowrap;
+              scrollbar-width: thin;
+              -webkit-overflow-scrolling: touch;
+            "
+          >
+            <v-col
+              v-for="category in categories"
+              :key="category"
+              cols="auto"
+              class="px-0 py-1"
+              style="display: inline-block"
+            >
+              <v-btn
+                variant="outlined"
+                size="large"
+                class="ma-2 text-capitalize"
+                :class="{
+                  'active-catgory': selectedCategory === category,
+                  'unactive-catgory': selectedCategory !== category,
+                }"
+                :color="selectedCategory === category ? '#21a0a0' : '#D3ECEC'"
+                @click="changeCategory(category)"
+                style="white-space: normal"
+              >
                 <p class="black--text mt-2 category-p">
                   {{ category.item_group }}
                 </p>
@@ -33,39 +48,72 @@
       </v-row>
       <v-row class="px-10 pb-0" v-show="filteredProducts.length > 0">
         <!-- Product Cards -->
-        <v-col v-for="product in filteredProducts" :key="product.item_code" cols="12" sm="6" md="4" lg="3" xl="3"
-          class="mb-4 pt-0">
+        <v-col
+          v-for="product in filteredProducts"
+          :key="product.item_code"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+          xl="3"
+          class="mb-4 pt-0"
+        >
           <v-card class="hover-card" elevation="0" @click="openDialog(product)">
-            <img :src="product.image ? product.image : defaultImg" class="white--text align-end item-img"
-              v-show="!product.loading" />
+            <img
+              :src="product.image ? product.image : defaultImg"
+              class="white--text align-end item-img"
+              v-show="!product.loading"
+            />
             <p class="stock-loading" v-show="product.loading">
-              <v-progress-circular indeterminate size="50" color="#21A0A0" class="mt-1" style=" width: 220px;
-  height: 120px;"></v-progress-circular>
+              <v-progress-circular
+                indeterminate
+                size="50"
+                color="#21A0A0"
+                class="mt-1"
+                style="width: 220px; height: 120px"
+              ></v-progress-circular>
             </p>
 
             <div style="display: flex; justify-content: space-between">
-              <div style="width: 180px; word-wrap: break-word;">
-                <v-card-title class="item-name py-0 mt-3" style="white-space: normal; word-break: break-word;">
-                  {{
-                    product.item_name
-                  }}</v-card-title>
+              <div style="width: 180px; word-wrap: break-word">
+                <v-card-title
+                  class="item-name py-0 mt-3"
+                  style="white-space: normal; word-break: break-word"
+                >
+                  {{ product.item_name }}</v-card-title
+                >
                 <v-tooltip activator="parent" location="top">{{
                   product.item_name
-                  }}</v-tooltip>
+                }}</v-tooltip>
 
-                <v-card-subtitle v-if="product.custom_discounted_rate > 0" class="actual-item-price mb-2"
-                  style=" text-decoration: line-through!important;color: grey;font-size: 0.9em;margin-right: 5px;">Rs.{{
-                    formatNumber(product.rate) }}</v-card-subtitle>
-                <v-card-subtitle class="item-price mb-2" v-else>Rs.{{ formatNumber(product.rate) }}</v-card-subtitle>
-                <v-card-subtitle class="item-price mb-2" v-show="product.custom_discounted_rate > 0">Rs.{{
-                  formatNumber(product.custom_discounted_rate) }}</v-card-subtitle>
-
+                <v-card-subtitle
+                  v-if="product.custom_discounted_rate > 0"
+                  class="actual-item-price mb-2"
+                  style="
+                    text-decoration: line-through !important;
+                    color: grey;
+                    font-size: 0.9em;
+                    margin-right: 5px;
+                  "
+                  >Rs.{{ formatNumber(product.rate) }}</v-card-subtitle
+                >
+                <v-card-subtitle class="item-price mb-2" v-else
+                  >Rs.{{ formatNumber(product.rate) }}</v-card-subtitle
+                >
+                <v-card-subtitle
+                  class="item-price mb-2"
+                  v-show="product.custom_discounted_rate > 0"
+                  >Rs.{{
+                    formatNumber(product.custom_discounted_rate)
+                  }}</v-card-subtitle
+                >
               </div>
               <div>
-
                 <div class="stock-div">
-
-                  <p class="stock-count" :class="{ 'negative-stock': product.actual_qty < 0 }">
+                  <p
+                    class="stock-count"
+                    :class="{ 'negative-stock': product.actual_qty < 0 }"
+                  >
                     {{ product.actual_qty }}
                   </p>
                 </div>
@@ -81,16 +129,29 @@
       </v-row>
       <v-row v-show="itemloading">
         <v-col cols="12" style="display: flex; justify-content: center">
-          <v-progress-circular :size="100" :width="7" color="#21a0a0" indeterminate></v-progress-circular>
+          <v-progress-circular
+            :size="100"
+            :width="7"
+            color="#21a0a0"
+            indeterminate
+          ></v-progress-circular>
         </v-col>
       </v-row>
     </v-card>
 
-
-    <v-dialog v-model="variantsDialog" width="800px" max-height="800px" persistent>
+    <v-dialog
+      v-model="variantsDialog"
+      width="800px"
+      max-height="800px"
+      persistent
+    >
       <v-card v-if="parentItem">
         <v-card-title class="text-h5 d-flex justify-end pt-3 pr-3">
-          <v-icon class="d-flex justify-end pt-3 pr-3" @click="closeDialog" :ripple="false">
+          <v-icon
+            class="d-flex justify-end pt-3 pr-3"
+            @click="closeDialog"
+            :ripple="false"
+          >
             mdi-close
           </v-icon>
         </v-card-title>
@@ -102,24 +163,48 @@
         <v-card-text class="pt-4 add-on-div" v-if="parentItem.attributes">
           <v-stepper v-model="currentStep">
             <v-stepper-header>
-              <v-stepper-item v-for="(item, i) in parentItem.attributes" :key="i" :title="item.display_name"
-                :complete="!!variantRadio[i]" :value="i + 1" />
+              <v-stepper-item
+                v-for="(item, i) in parentItem.attributes"
+                :key="i"
+                :title="item.display_name"
+                :complete="!!variantRadio[i]"
+                :value="i + 1"
+              />
             </v-stepper-header>
 
             <v-stepper-window>
-              <v-stepper-window-item v-for="(item, i) in parentItem.attributes" :key="i" :value="i + 1">
+              <v-stepper-window-item
+                v-for="(item, i) in parentItem.attributes"
+                :key="i"
+                :value="i + 1"
+              >
                 <!-- <p v-if="item.required && !variantRadio[i]" class="required-p mt-1">Required</p> -->
 
                 <div class="d-flex flex-wrap justify-center gap-2 mt-10">
-                  <v-btn v-for="(option, index) in item.values" :key="index"
-                    :color="variantRadio[i] === option ? 'rgb(240, 93, 35)' : '#21A0A0'" variant="tonal"
-                    class="mr-2 mt-2" @click="onOptionSelect(i, option)">
-                    {{ option.doctype == 'Item Add Ons Child' ? option.display_name : option.abbr }}
+                  <v-btn
+                    v-for="(option, index) in item.values"
+                    :key="index"
+                    :color="
+                      variantRadio[i] === option
+                        ? 'rgb(240, 93, 35)'
+                        : '#21A0A0'
+                    "
+                    variant="tonal"
+                    class="mr-2 mt-2"
+                    @click="onOptionSelect(i, option)"
+                  >
+                    {{
+                      option.doctype == "Item Add Ons Child"
+                        ? option.display_name
+                        : option.abbr
+                    }}
                   </v-btn>
                 </div>
 
                 <div class="d-flex justify-space-between mt-14">
-                  <v-btn v-if="i > 0" color="secondary" @click="prevStep">Previous</v-btn>
+                  <v-btn v-if="i > 0" color="secondary" @click="prevStep"
+                    >Previous</v-btn
+                  >
                   <!-- <v-btn
                 v-if="i < parentItem.attributes.length - 1"
                 color="primary"
@@ -128,8 +213,12 @@
               >
                 Next
               </v-btn> -->
-                  <v-btn v-if="i === parentItem.attributes.length - 1" color="success" :disabled="!variantRadio[i]"
-                    @click="submitSelection">
+                  <v-btn
+                    v-if="i === parentItem.attributes.length - 1"
+                    color="success"
+                    :disabled="!variantRadio[i]"
+                    @click="submitSelection"
+                  >
                     Confirm
                   </v-btn>
                 </div>
@@ -153,10 +242,11 @@ const categories = ref([]);
 const pos_profile = ref("");
 const selectedCategory = ref("");
 const searchValue = ref("");
-const defaultImg = computed(() => `/assets/tabrah_pos/js/posapp/components/pos/defaultProduct.png`);
+const defaultImg = computed(
+  () => `/assets/tabrah_pos/js/posapp/components/pos/defaultProduct.png`
+);
 const orderType = ref("");
 const searchItemCode = ref("");
-
 
 const isOnline = ref(navigator.onLine);
 const pollingInterval = 4000; // Set the desired interval (e.g., 5000 ms for 5 seconds)
@@ -169,27 +259,24 @@ const getAllItems = ref(false);
 const offlineMode = ref(false);
 const unsyncInvoice = ref(0);
 
-
 const variantsDialog = ref(false);
 const parentItem = ref({
-  item_name: '',
+  item_name: "",
   attributes: [],
-  variants: []
-
-})
+  variants: [],
+});
 const panel = ref([0, 1]);
 const addOnPanel = ref([]);
 const variantRadio = ref([]);
 const selectedValues = ref([]);
 const selectedVariants = ref([]);
-const payload_string = ref('');
-const variantMatch = ref('');
+const payload_string = ref("");
+const variantMatch = ref("");
 const currentStep = ref(1);
-const variantPayload = ref('')
+const variantPayload = ref("");
 const calledBundleApi = ref(false);
 const bundleArray = ref([]);
 const onlyAddOn = ref(false);
-
 
 const nextStep = (index) => {
   if (index < parentItem.value.attributes.length - 1) {
@@ -211,17 +298,17 @@ const nextStep = (index) => {
 
 const closeDialog = () => {
   variantsDialog.value = false;
-  defaultValue()
+  defaultValue();
 };
 const defaultValue = () => {
-  calledBundleApi.value = false
-  bundleArray.value = []
-  variantPayload.value = ''
-  currentStep.value = 1
-  variantMatch.value = ''
-  payload_string.value = ''
-  variantRadio.value = []
-}
+  calledBundleApi.value = false;
+  bundleArray.value = [];
+  variantPayload.value = "";
+  currentStep.value = 1;
+  variantMatch.value = "";
+  payload_string.value = "";
+  variantRadio.value = [];
+};
 const prevStep = () => {
   if (currentStep.value > 1) currentStep.value--;
 };
@@ -230,14 +317,13 @@ const submitSelection = () => {
   if (variantPayload.value && !calledBundleApi.value) {
     eventBus.emit("add-to-cart", variantPayload.value);
     variantsDialog.value = false;
-  }
-  else {
+  } else {
     variantsDialog.value = false;
     if (variantPayload.value) {
       bundleArray.value.push(variantPayload.value);
     }
     variantRadio.value.forEach((item) => {
-      if (item.doctype == 'Item Add Ons Child') {
+      if (item.doctype == "Item Add Ons Child") {
         const obj = {
           item_code: `${item.item}`,
           item_name: `${item.item_name}`,
@@ -245,12 +331,11 @@ const submitSelection = () => {
           qty: 1,
           rate: item.rate,
         };
-        bundleArray.value.push(obj)
+        bundleArray.value.push(obj);
       }
-    })
-    getItemBundle()
+    });
+    getItemBundle();
   }
-
 };
 
 const getItemBundle = async (product) => {
@@ -258,8 +343,8 @@ const getItemBundle = async (product) => {
     const obj = {
       items: bundleArray.value,
     };
-    let bundle = []
-    bundle.push(obj)
+    let bundle = [];
+    bundle.push(obj);
     const obj1 = {
       items: bundle,
     };
@@ -275,7 +360,7 @@ const getItemBundle = async (product) => {
       console.log("bundle Api response....", response.message);
       // Patch: set item_group for the main bundle item if missing
       if (!response.message[0].item_group) {
-        let fallbackGroup = '';
+        let fallbackGroup = "";
         if (selectedCategory.value && selectedCategory.value.item_group) {
           fallbackGroup = selectedCategory.value.item_group;
         } else if (
@@ -283,15 +368,15 @@ const getItemBundle = async (product) => {
           Array.isArray(response.message[0].product_bundle.items) &&
           response.message[0].product_bundle.items.length > 0
         ) {
-          fallbackGroup = response.message[0].product_bundle.items[0].custom_item_group || '';
+          fallbackGroup =
+            response.message[0].product_bundle.items[0].custom_item_group || "";
         }
         response.message[0].item_group = fallbackGroup;
       }
       eventBus.emit("add-to-cart", response.message[0]);
       variantsDialog.value = false;
-      defaultValue()
+      defaultValue();
     }
-
   } catch (error) {
     console.error("Error fetching order types:", error);
   }
@@ -321,11 +406,14 @@ const onOptionSelect = (index, selectedValue) => {
     const obj = {
       item_code: `${variantMatch.value.item_code}`,
       item_name: `${variantMatch.value.item_name}`,
-      item_group: variantMatch.value.item_group || (selectedCategory.value && selectedCategory.value.item_group) || '',
+      item_group:
+        variantMatch.value.item_group ||
+        (selectedCategory.value && selectedCategory.value.item_group) ||
+        "",
       qty: 1,
       rate: variantMatch.value.rate,
     };
-    variantPayload.value = obj
+    variantPayload.value = obj;
     // payloadArray.value.push(obj);
     console.log("variantPyalod.value", variantPayload.value);
     // }
@@ -338,15 +426,11 @@ const onOptionSelect = (index, selectedValue) => {
     // });
   }
   nextStep(index);
-
-
 };
 
 const addVariantItem = () => {
   // Logic to add the selected variant item
 };
-
-
 
 const products = ref([
   // {
@@ -357,28 +441,30 @@ const products = ref([
   // },
 ]);
 
-
-
-
-
 const filteredProducts = computed(() => {
-  // If the search value is empty, return all products
-  if (!searchItemCode.value) {
-    return products.value;
+  const allItems = JSON.parse(localStorage.getItem("All-items_storage")) || [];
+
+  const searchQuery = searchItemCode.value?.toLowerCase();
+
+  // 🔍 IF search exists → search from ALL items
+  if (searchQuery) {
+    return allItems.filter(
+      (item) =>
+        item.order_type == orderType.value &&
+        (item.item_code?.toLowerCase().includes(searchQuery) ||
+          item.item_name?.toLowerCase().includes(searchQuery))
+    );
   }
 
-  // Convert search input to lowercase for case-insensitive search
-  const searchQuery = searchItemCode.value.toLowerCase();
+  // 📦 ELSE → filter by selected category
+  if (!selectedCategory.value) return [];
 
-  // Filter products that match `item_code` OR `item_name`
-  return products.value.filter((product) => {
-    return (
-      product.item_code.toLowerCase().includes(searchQuery) ||
-      product.item_name.toLowerCase().includes(searchQuery)
-    );
-  });
+  return allItems.filter(
+    (item) =>
+      item.item_group === selectedCategory.value.item_group &&
+      item.order_type == orderType.value
+  );
 });
-
 
 const formatNumber = (num) => {
   return new Intl.NumberFormat("en-US", {
@@ -735,8 +821,8 @@ async function markRecordAsSynced(db, record) {
 const openDialog = (product, flag = false) => {
   console.log("Product clicked:", product);
   product.qty = 1;
-  product.loading = true
-  get_variants(product, flag)
+  product.loading = true;
+  get_variants(product, flag);
 
   // if (product.has_variants) {
   //   get_variants(product,flag)
@@ -756,7 +842,7 @@ const get_variants = async (product, flag) => {
       args: {
         pos_profile: pos_profile.value,
         item_code: product.item_code,
-        order_type: orderType.value
+        order_type: orderType.value,
       },
     });
 
@@ -765,18 +851,21 @@ const get_variants = async (product, flag) => {
       response.message[0].Attributes[0].forEach((variant) => {
         variant.required = true;
         variant.valueSelect = false;
-        variant.display_name = variant.attribute
-        variant.type = 'variant'
-      })
+        variant.display_name = variant.attribute;
+        variant.type = "variant";
+      });
       response.message[0].add_ons.forEach((addon) => {
-        addon.type = 'addon'
-        addon.values = addon.item_add_ons
-      })
-      if (response.message[0].Attributes[0].length == 0 && response.message[0].add_ons.length > 0) {
-        onlyAddOn.value = true
+        addon.type = "addon";
+        addon.values = addon.item_add_ons;
+      });
+      if (
+        response.message[0].Attributes[0].length == 0 &&
+        response.message[0].add_ons.length > 0
+      ) {
+        onlyAddOn.value = true;
       }
       if (response.message[0].add_ons.length > 0) {
-        calledBundleApi.value = true
+        calledBundleApi.value = true;
         const obj = {
           item_code: `${product.item_code}`,
           item_name: `${product.item_name}`,
@@ -784,31 +873,31 @@ const get_variants = async (product, flag) => {
           qty: 1,
           rate: product.rate,
         };
-        bundleArray.value.push(obj)
+        bundleArray.value.push(obj);
       }
 
-      parentItem.value.item_name = product.item_name
-      parentItem.value.attributes = [...response.message[0].Attributes[0], ...response.message[0].add_ons]
-      parentItem.value.variants = response.message[0].variants
-      console.log("parentItem", parentItem.value)
+      parentItem.value.item_name = product.item_name;
+      parentItem.value.attributes = [
+        ...response.message[0].Attributes[0],
+        ...response.message[0].add_ons,
+      ];
+      parentItem.value.variants = response.message[0].variants;
+      console.log("parentItem", parentItem.value);
       if (parentItem.value.attributes.length > 0) {
-        variantsDialog.value = true
-
-      }
-      else {
+        variantsDialog.value = true;
+      } else {
         const obj = {
           product,
           flag,
         };
         eventBus.emit("open-product-dialog", obj);
       }
-      product.loading = false
+      product.loading = false;
       // parentItem.value.attributes.forEach((item) => {
       //   item.required = true;
       //   item.valueSelect = false;
       // });
     }
-
   } catch (error) {
     console.error("Error fetching order types:", error);
   }
@@ -849,7 +938,11 @@ const scanItem = (category) => {
   if (searchValue.value) {
     if (exactMatchItem) {
       exactMatchItem.qty = 1;
-      if (!exactMatchItem.item_group && selectedCategory.value && selectedCategory.value.item_group) {
+      if (
+        !exactMatchItem.item_group &&
+        selectedCategory.value &&
+        selectedCategory.value.item_group
+      ) {
         exactMatchItem.item_group = selectedCategory.value.item_group;
       }
       eventBus.emit("add-to-cart", exactMatchItem);
@@ -1054,12 +1147,12 @@ onMounted(() => {
   });
 
   eventBus.on("search-item", (value) => {
-    // console.log("receive-search", value);
+    console.log("receive-search", value);
     searchValue.value = value;
     // scanItem();
   });
   eventBus.on("search-item-by-code", (value) => {
-    // console.log("receive-search", value);
+    console.log("receive-search", value);
     searchItemCode.value = value;
   });
   eventBus.on("send_order_type", (data) => {
@@ -1096,16 +1189,15 @@ onMounted(() => {
         });
     }
     // get_items(profile, selectedCategory.value);
-    const complementryMode = pos_profile.value.payments
-      .filter(profile => profile.custom_is_complementary_mode_of_payment == 1)
+    const complementryMode = pos_profile.value.payments.filter(
+      (profile) => profile.custom_is_complementary_mode_of_payment == 1
+    );
     if (complementryMode.length === 0) {
       eventBus.emit("show_mesage", {
         text: `Please Set Complementary Mode of Payment in POS Profile`,
         color: "error",
       });
     }
-
-
   });
 
   eventBus.on("update_get_item", (data) => {
